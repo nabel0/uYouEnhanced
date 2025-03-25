@@ -71,12 +71,6 @@ SWITCH3(
 );
 */
 
-static void ResetNetworkSettings() {
-    NSURLSession *session = [NSURLSession sharedSession];
-    [session invalidateAndCancel];
-    [session resetWithCompletionHandler:^{
-    }];
-}
 static NSString *GetCacheSize() { // YTLite - @dayanch96
     NSString *cachePath = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject;
     NSArray *filesArray = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:cachePath error:nil];
@@ -366,18 +360,6 @@ NSString *cacheDescription = [NSString stringWithFormat:@"%@", GetCacheSize()];
     ];
     [sectionItems addObject:clearCache];
 
-    YTSettingsSectionItem *refreshConnection = [%c(YTSettingsSectionItem)
-        itemWithTitle:LOC(@"REFRESH_CONNECTION")
-        titleDescription:LOC(@"REFRESH_CONNECTION_DESC")
-        accessibilityIdentifier:nil
-        detailTextBlock:nil
-        selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger arg1) {
-            ResetNetworkSettings();
-            return YES;
-        }
-    ];
-    [sectionItems addObject:refreshConnection];
-
     # pragma mark - App theme
     SECTION_HEADER(LOC(@"THEME_OPTIONS"));
 
@@ -658,7 +640,6 @@ NSString *cacheDescription = [NSString stringWithFormat:@"%@", GetCacheSize()];
     ];
     [sectionItems addObject:lowContrastModeButton];
     SWITCH2(LOC(@"CLASSIC_VIDEO_PLAYER"), LOC(@"CLASSIC_VIDEO_PLAYER_DESC"), kClassicVideoPlayer);
-    SWITCH2(LOC(@"FIX_LOWCONTRASTMODE"), LOC(@"FIX_LOWCONTRASTMODE_DESC"), kFixLowContrastMode);
     SWITCH2(LOC(@"DISABLE_MODERN_BUTTONS"), LOC(@"DISABLE_MODERN_BUTTONS_DESC"), kDisableModernButtons);
     SWITCH2(LOC(@"DISABLE_ROUNDED_CORNERS_ON_HINTS"), LOC(@"DISABLE_ROUNDED_CORNERS_ON_HINTS_DESC"), kDisableRoundedHints);
     SWITCH2(LOC(@"DISABLE_MODERN_FLAGS"), LOC(@"DISABLE_MODERN_FLAGS_DESC"), kDisableModernFlags);
